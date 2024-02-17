@@ -12,16 +12,26 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\QueueService;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Annotation\Controller;
+use Hyperf\HttpServer\Annotation\RequestMapping;
+
+#[Controller]
 class IndexController extends AbstractController
 {
+    #[Inject]
+    protected QueueService $queueService;
+    
+    #[RequestMapping(path: '/', methods: ['get', 'post'])]
     public function index()
     {
-        $user = $this->request->input('user', 'Hyperf');
-        $method = $this->request->getMethod();
+        $this->queueService->push([
+            'group@hyperf.io',
+            'https://doc.hyperf.io',
+            'https://www.hyperf.io',
+        ]);
 
-        return [
-            'method' => $method,
-            'message' => "Hello {$user}.",
-        ];
+        return 'success';
     }
 }

@@ -18,4 +18,6 @@ use Hyperf\Process\Annotation\Process;
 #[Process]
 class AsyncQueueConsumer extends ConsumerProcess
 {
+
+    
 }
